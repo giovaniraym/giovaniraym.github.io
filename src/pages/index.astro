@@ -10,7 +10,7 @@ import { profile } from '../data/profile';
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const title = `${profile.name} · Ingeniero de Software Fullstack`;
 const description = 'Ingeniero de Software Fullstack en Monterrey. Fundador de uSafety e Ingeniero de Software en Retalio.';
-const pageUrl = new URL(base, Astro.site);
+const pageUrl = new URL(base, Astro.site ?? Astro.url);
 const ogImage = new URL('og.png', pageUrl);
 ---
 <!doctype html>
