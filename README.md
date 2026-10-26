@@ -2,7 +2,7 @@
 
 Sitio personal de Giovani Ramírez Méndez, ingeniero de software fullstack en Monterrey, N.L.
 
-**En vivo:** https://giovaniraymundo.github.io/giovaniraym.github.io/
+**En vivo:** https://giovaniraym.github.io
 
 ## Características
 
@@ -24,7 +24,7 @@ Requiere Node.js 22.23.4 o superior.
 
 ```bash
 npm install
-npm run dev       # http://localhost:3000/giovaniraym.github.io/
+npm run dev       # http://localhost:3000
 npm run build     # genera el sitio estático en dist/
 npm run preview   # sirve el build localmente
 ```

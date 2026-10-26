@@ -2,7 +2,7 @@ export const profile = {
   name: 'Giovani Ramírez Méndez',
   location: 'Monterrey, N.L.',
   email: 'kevingiovaniramirez@gmail.com',
-  github: 'https://github.com/GiovaniRaymundo',
+  github: 'https://github.com/giovaniraym',
   linkedin: 'https://www.linkedin.com/in/giovaniraym/',
 };
 
