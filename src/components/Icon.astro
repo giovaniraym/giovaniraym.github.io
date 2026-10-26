@@ -1,0 +1,53 @@
+---
+import { Picture } from 'astro:assets';
+import hiltonCancun from '../assets/logos/hilton-cancun.png';
+import hiltonMonterrey from '../assets/logos/hilton-monterrey.png';
+
+type Props = { name: string; size?: number };
+const { name, size = 22 } = Astro.props;
+
+const images: Record<string, ImageMetadata> = {
+  'hilton-cancun': hiltonCancun,
+  'hilton-mty': hiltonMonterrey,
+};
+const image = images[name];
+---
+{image && (
+  <Picture
+    src={image}
+    alt=""
+    width={size}
+    height={size}
+    widths={[size, size * 2]}
+    sizes={`${size}px`}
+    formats={['avif', 'webp']}
+    loading="lazy"
+    decoding="async"
+    pictureAttributes={{ style: 'display: contents' }}
+    style="display: block"
+  />
+)}
+{name === 'retalio' && (
+  <svg width={size} height={size} viewBox="3 3 18 18" aria-hidden="true"><path d="M9.4 3h5.2A6.4 6.4 0 0 1 21 9.4v11a.6.6 0 0 1-.6.6H9.4A6.4 6.4 0 0 1 3 14.6V9.4A6.4 6.4 0 0 1 9.4 3z" fill="#24C660"/></svg>
+)}
+{name === 'usafety' && (
+  <svg width={size} height={size} viewBox="10 10 380 380" fill="none" aria-hidden="true"><path d="M301.333 10H98.6667C49.6974 10 10 45.7277 10 89.8V310.2C10 354.272 49.6974 390 98.6667 390H301.333C350.303 390 390 354.272 390 310.2V89.8C390 45.7277 350.303 10 301.333 10Z" fill="#C9D6E9"/><path d="M115.869 390C115.869 333 105.339 295 84.2792 272.2L42.159 253.2C37.947 245.6 37.947 230.4 42.159 226.6L132.717 196.2L143.247 173.4L174.837 48L208.534 158.2L223.276 162L248.548 63.2L269.608 169.6C288.562 238 315.94 314 337 390H115.869Z" fill="#0D1117"/><path opacity="0.25" d="M153 169L175 64L197 152.125L153 169Z" fill="#C9D6E9"/><path d="M131 217.328L175 201C167.667 218.417 153 223.859 131 217.328Z" fill="#C9D6E9"/><path d="M110.1 326C167.5 343.156 234.467 350.59 311 348.303L306.9 358.596C233.1 360.884 166.133 353.45 106 336.294L110.1 326Z" fill="#C9D6E9"/><path d="M167 359H187V370.455L177 380L167 370.455V359Z" fill="#C9D6E9"/></svg>
+)}
+{name === 'lisar' && (
+  <svg width={size} height={size} viewBox="17 7 308 310" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="square" aria-hidden="true"><path d="M37 297V27h135v133h133M37 297h268V30L37 297"/></svg>
+)}
+{name === 'layers' && (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/><path d="m3 17.5 9 5 9-5" opacity=".55"/></svg>
+)}
+{name === 'github' && (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2"/></svg>
+)}
+{name === 'linkedin' && (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 8.5H3.56V20h3.38zM5.25 3a1.96 1.96 0 1 0 0 3.92 1.96 1.96 0 0 0 0-3.92M20.44 13.4c0-3.1-1.66-4.54-3.87-4.54a3.34 3.34 0 0 0-3.03 1.67V8.5h-3.37V20h3.37v-5.7c0-1.5.29-2.95 2.15-2.95 1.83 0 1.85 1.71 1.85 3.05V20h3.38z"/></svg>
+)}
+{name === 'mail' && (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+)}
+{name === 'pin' && (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+)}

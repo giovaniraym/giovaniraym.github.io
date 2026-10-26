@@ -1,0 +1,190 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import avatar from '../assets/avatar.jpg';
+import { profile } from '../data/profile';
+
+const socials = [
+  { label: 'GitHub', icon: 'github', href: profile.github, size: 20 },
+  { label: 'LinkedIn', icon: 'linkedin', href: profile.linkedin, size: 20 },
+  { label: 'Email', icon: 'mail', href: `mailto:${profile.email}`, size: 20 },
+  { label: 'uSafety', icon: 'usafety', href: '#usafety', size: 24 },
+  { label: 'Retalio', icon: 'retalio', href: '#retalio', size: 24 },
+];
+
+const works = [
+  { company: 'Retalio', role: 'Ingeniero', color: '#24c660', icon: 'retalio' },
+  { company: 'uSafety', role: 'Fundador', color: '#0d1117', icon: 'usafety' },
+  { company: 'Hilton', role: 'IT Assistant', color: '#14509a', icon: 'hilton-mty' },
+];
+
+const skills = [
+  { t: 'IA / RAG', x: 46, y: 0, r: -6 },
+  { t: 'Multi-tenant', x: 2, y: 94, r: -58 },
+  { t: 'SaaS', x: 24, y: 18, r: -10 },
+  { t: 'APIs', x: 58, y: 24, r: 10 },
+  { t: 'Soporte TI', x: 22, y: 84, r: -4 },
+  { t: 'PostgreSQL', x: 40, y: 58, r: 22 },
+  { t: 'CI/CD', x: 30, y: 38, r: -6 },
+];
+
+const tools = [
+  { t: 'TS', bg: '#3178c6', x: 22, y: 8, r: -6 },
+  { t: 'Az', bg: '#0a66c2', x: 54, y: 2, r: 12 },
+  { t: 'Nd', bg: '#3c873a', x: 6, y: 50, r: 4 },
+  { t: 'Pg', bg: '#336791', x: 38, y: 54, r: -8 },
+  { t: 'Rd', bg: '#d82c20', x: 68, y: 46, r: 10 },
+];
+---
+<section class="bento" aria-label="Resumen">
+  <div class="card hero">
+    <h1>Hola, soy Giovani</h1>
+    <p>Ingeniero de Software @Retalio</p>
+  </div>
+  <div class="card avatar">
+    <Picture
+      src={avatar}
+      alt={`Foto de ${profile.name}`}
+      width={96}
+      height={96}
+      widths={[96, 192]}
+      sizes="96px"
+      formats={['avif', 'webp']}
+      loading="eager"
+      fetchpriority="high"
+      pictureAttributes={{ style: 'display: contents' }}
+    />
+  </div>
+
+  <div class="socials">
+    {socials.map((s) => (
+      <a class="card social" href={s.href} aria-label={s.label} target={s.href.startsWith('http') ? '_blank' : undefined} rel="noopener" data-copy={s.href.startsWith('mailto:') ? profile.email : undefined}>
+        <Icon name={s.icon} size={s.size} />
+      </a>
+    ))}
+  </div>
+
+  <a class="card works" href="#experiencia">
+    <span class="label">Experiencia</span>
+    <span class="arrow">↗</span>
+    <div class="stack-cards">
+      {works.map((w, i) => (
+        <div class={`mini m${i}`}>
+          <span class="mini-logo"><Icon name={w.icon} size={16} /></span>
+          <b>{w.company}</b>
+          <small>{w.role}</small>
+          <span class="bar" style={`background:${w.color}`}></span>
+          <span class="bar short"></span>
+        </div>
+      ))}
+    </div>
+  </a>
+
+  <div class="card skills">
+    <span class="label">Especialidades</span>
+    <div class="pile">
+      {skills.map((s) => (
+        <span class="chip" style={`left:${s.x}%;top:${s.y}%;rotate:${s.r}deg`}>{s.t}</span>
+      ))}
+    </div>
+  </div>
+
+  <div class="card tools">
+    <span class="label">Stack</span>
+    <div class="pile">
+      {tools.map((t) => (
+        <span class="tool" style={`left:${t.x}%;top:${t.y}%;rotate:${t.r}deg;--c:${t.bg}`}>{t.t}</span>
+      ))}
+    </div>
+  </div>
+
+  <div class="card collab">
+    <h2>¡Colaboremos!</h2>
+    <p>Convirtamos tu idea en un producto real, escalable y automatizado.</p>
+    <a class="cta" href={`mailto:${profile.email}`} data-copy={profile.email}>Copiar mi correo →</a>
+  </div>
+</section>
+
+<style>
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 8px;
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+  .card {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--card-line);
+    border-radius: 14px;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
+    color: var(--ink);
+    text-decoration: none;
+    overflow: hidden;
+  }
+  .label { font-size: 12px; color: var(--muted); }
+
+  .hero { grid-column: span 7; padding: 18px 16px; display: flex; flex-direction: column; justify-content: center; }
+  .hero h1 { margin: 0; font-weight: 400; font-size: 23px; letter-spacing: -0.02em; }
+  .hero p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+  .avatar { grid-column: span 3; display: grid; place-items: center; aspect-ratio: 1; }
+  .avatar img { width: 72%; height: auto; aspect-ratio: 1; border-radius: 50%; object-fit: cover; }
+
+  .socials { grid-column: span 10; display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .social { aspect-ratio: 1; display: grid; place-items: center; color: #6e6e73; transition: color .2s, background .2s; }
+  .social:active, .social:hover { color: var(--ink); background: var(--card-hover); }
+
+  .works, .skills { grid-column: span 5; height: 170px; padding: 14px; }
+  .arrow {
+    position: absolute; top: 10px; right: 10px;
+    width: 24px; height: 24px; border-radius: 50%;
+    border: 1px solid var(--line); display: grid; place-items: center; font-size: 12px; color: var(--muted);
+  }
+  .stack-cards { position: absolute; inset: 40px 0 0 0; }
+  .mini {
+    position: absolute;
+    width: 78px; padding: 7px;
+    background: #fff; border-radius: 7px;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.12);
+    display: flex; flex-direction: column; gap: 3px;
+    font-size: 9px; line-height: 1.2;
+  }
+  .mini b { font-weight: 500; color: #1d1d1f; }
+  .mini small { color: var(--muted); font-size: 8px; }
+  .mini-logo { width: 16px; height: 16px; border-radius: 4px; overflow: hidden; }
+  .bar { height: 3px; border-radius: 2px; margin-top: 2px; width: 80%; }
+  .bar.short { width: 50%; background: #e5e5e5; }
+  .m0 { left: 6%; top: 32px; rotate: -8deg; }
+  .m1 { left: 32%; top: 6px; rotate: 3deg; z-index: 2; }
+  .m2 { left: 58%; top: 34px; rotate: 9deg; }
+
+  .pile { position: absolute; inset: 38px 10px 10px 10px; }
+  .chip {
+    position: absolute;
+    padding: 4px 9px; border-radius: 999px;
+    background: var(--chip); color: #f2f2f2;
+    font-size: 10px; white-space: nowrap;
+    transform-origin: left center;
+  }
+
+  .tools { grid-column: span 4; height: 160px; padding: 14px; }
+  .tool {
+    position: absolute;
+    width: 38px; height: 38px; border-radius: 9px;
+    display: grid; place-items: center;
+    background: var(--chip); color: #fff;
+    font-size: 12px; font-weight: 500;
+    box-shadow: inset 0 -3px 0 var(--c), 0 3px 8px rgb(0 0 0 / 0.15);
+  }
+  .collab { grid-column: span 6; height: 160px; padding: 16px; display: flex; flex-direction: column; }
+  .collab h2 { margin: 0; font-weight: 400; font-size: 20px; letter-spacing: -0.01em; }
+  .collab p { margin: 6px 0 0; font-size: 11px; line-height: 1.45; color: var(--muted); }
+  .cta {
+    margin-top: auto; align-self: flex-start;
+    padding: 7px 12px; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--card-hover);
+    font-size: 11px; color: var(--ink); text-decoration: none;
+  }
+</style>

@@ -1,0 +1,86 @@
+---
+import Icon from './Icon.astro';
+import { profile } from '../data/profile';
+
+const work = [
+  { label: 'Retalio', icon: 'retalio', href: '#retalio', size: 44 },
+  { label: 'uSafety', icon: 'usafety', href: '#usafety', size: 44 },
+  { label: 'Hilton Monterrey', icon: 'hilton-mty', href: '#hilton-mty', size: 44 },
+  { label: 'Hilton Cancún', icon: 'hilton-cancun', href: '#hilton-cancun', size: 44 },
+  { label: 'Lisar', icon: 'lisar', href: '#lisar', size: 28 },
+];
+const social = [
+  { label: 'GitHub', icon: 'github', href: profile.github, bg: 'var(--gh-bg)', fg: 'var(--gh-fg)' },
+  { label: 'LinkedIn', icon: 'linkedin', href: profile.linkedin, bg: '#2d6db5', fg: '#fff' },
+  { label: 'Email', icon: 'mail', href: `mailto:${profile.email}`, bg: 'linear-gradient(180deg,#5ab0ff,#1f7cf2)', fg: '#fff' },
+];
+---
+<nav class="dock" aria-label="Accesos">
+  {work.map((a) => (
+    <a class="app" href={a.href} aria-label={a.label}>
+      <span class="logo"><Icon name={a.icon} size={a.size} /></span>
+      <span class="tip">{a.label}</span>
+    </a>
+  ))}
+  <span class="divider"></span>
+  {social.map((a) => (
+    <a class="app" href={a.href} style={`--bg:${a.bg};--fg:${a.fg}`} aria-label={a.label} target={a.href.startsWith('http') ? '_blank' : undefined} rel="noopener" data-copy={a.href.startsWith('mailto:') ? profile.email : undefined}>
+      <Icon name={a.icon} />
+      <span class="tip">{a.label}</span>
+    </a>
+  ))}
+</nav>
+
+<style>
+  .dock {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px;
+    border-radius: 18px;
+    background: var(--dock);
+    border: 1px solid var(--dock-line);
+    box-shadow: 0 10px 30px rgb(0 0 0 / 0.08), 0 1px 2px rgb(0 0 0 / 0.06);
+    backdrop-filter: blur(12px);
+  }
+  .app {
+    position: relative;
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 11px;
+    background: var(--bg, var(--card-hover));
+    color: var(--fg, var(--lisar));
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.06), 0 1px 2px rgb(0 0 0 / 0.12);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .app:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.06), 0 6px 14px rgb(0 0 0 / 0.18); }
+  .logo {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    overflow: hidden;
+  }
+  .logo :global(svg) { display: block; }
+  .divider { flex: none; width: 1px; height: 32px; margin: 0 4px; background: var(--line); }
+  .tip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    translate: -50% 4px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: #1d1d1f;
+    color: #fff;
+    font-size: 11px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s, translate 0.15s;
+  }
+  .app:hover .tip { opacity: 1; translate: -50% 0; }
+</style>

@@ -1,0 +1,265 @@
+---
+import { Picture } from 'astro:assets';
+import Dock from '../components/Dock.astro';
+import Icon from '../components/Icon.astro';
+import Experience from '../components/Experience.astro';
+import Bento from '../components/Bento.astro';
+import avatar from '../assets/avatar.jpg';
+import { profile } from '../data/profile';
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const title = `${profile.name} · Ingeniero de Software Fullstack`;
+const description = 'Ingeniero de Software Fullstack en Monterrey. Fundador de uSafety e Ingeniero de Software en Retalio.';
+const pageUrl = new URL(base, Astro.site);
+const ogImage = new URL('og.png', pageUrl);
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={pageUrl} />
+    <link rel="icon" type="image/png" href={`${base}favicon.png`} />
+    <link rel="apple-touch-icon" href={`${base}apple-touch-icon.png`} />
+    <meta name="theme-color" content="#f1f1f1" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#191919" media="(prefers-color-scheme: dark)" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={profile.name} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400&display=swap" rel="stylesheet" />
+  </head>
+  <body id="top">
+    <main>
+      <div class="mobile"><Bento /></div>
+
+      <section class="hero desktop">
+        <Picture
+          class="avatar"
+          src={avatar}
+          alt={`Foto de ${profile.name}`}
+          width={96}
+          height={96}
+          widths={[96, 192]}
+          sizes="96px"
+          formats={['avif', 'webp']}
+          loading="eager"
+          fetchpriority="high"
+        />
+        <p class="name">{profile.name}</p>
+        <h1>
+          Ingeniero de software <span class="nw"><span class="glyph"><Icon name="layers" size={40} /></span> fullstack</span>
+          <br />& fundador de uSafety
+        </h1>
+        <p class="loc"><Icon name="pin" size={13} /> {profile.location}</p>
+      </section>
+
+      <div class="dock-wrap desktop"><Dock /></div>
+
+      <section class="about desktop" id="sobre-mi">
+        <p>Hola 👋</p>
+        <p>
+          Soy ingeniero de software fullstack enfocado en construir soluciones automatizadas,
+          escalables y mantenibles de principio a fin, para que la tecnología resuelva problemas y trabajo repetitivo.
+        </p>
+        <p>
+          Fundé <a href="#usafety">uSafety</a>, una plataforma SaaS multi-tenant en producción con un cliente real
+          (<a href="#hilton-mty">Hilton Monterrey</a>), con búsqueda semántica por embeddings, inspecciones digitales con QR,
+          control de ingresos y un botón de pánico que alerta al equipo en tiempo real.
+        </p>
+        <p>
+          Hoy trabajo en <a href="#retalio">Retalio</a>, una startup que automatiza la operación retail de tiendas de
+          conveniencia y gasolineras, donde desarrollo agentes con IA usando RAG sobre Azure Foundry, pipelines CI/CD
+          y APIs en tiempo real sobre PostgreSQL y Redis.
+        </p>
+        <p>
+          Mi paso por áreas de alta exigencia, como TI en hotelería, me dio habilidades sólidas de trato humano,
+          resolución de conflictos y liderazgo de equipos bajo presión.
+        </p>
+
+        <ul class="stack">
+          {['TypeScript', 'Node.js', 'Express', 'PostgreSQL', 'Redis', 'MariaDB', 'Azure Foundry', 'RAG / Embeddings', 'CI/CD', 'Active Directory', 'Splunk'].map((s) => <li>{s}</li>)}
+        </ul>
+
+        <p>Conectemos</p>
+        <div class="links">
+          <a href={profile.github} target="_blank" rel="noopener"><Icon name="github" size={12} /> GitHub</a>
+          <a href={profile.linkedin} target="_blank" rel="noopener"><Icon name="linkedin" size={12} /> LinkedIn</a>
+          <a href={`mailto:${profile.email}`} data-copy={profile.email}><Icon name="mail" size={12} /> Email</a>
+        </div>
+      </section>
+
+      <Experience />
+    </main>
+
+    <footer>© {new Date().getFullYear()} {profile.name}</footer>
+    <div class="toast" role="status" aria-live="polite"></div>
+
+    <script>
+      const toast = document.querySelector<HTMLElement>('.toast')!;
+      let timer: ReturnType<typeof setTimeout>;
+      const show = (msg: string) => {
+        toast.textContent = msg;
+        toast.classList.add('on');
+        clearTimeout(timer);
+        timer = setTimeout(() => toast.classList.remove('on'), 1600);
+      };
+      const copy = async (text: string) => {
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch {
+          const ta = Object.assign(document.createElement('textarea'), { value: text });
+          document.body.append(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+        }
+      };
+      document.querySelectorAll<HTMLElement>('[data-copy]').forEach((el) => {
+        el.addEventListener('click', async (e) => {
+          e.preventDefault();
+          await copy(el.dataset.copy!);
+          show(`¡Copiado! ${el.dataset.copy}`);
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --ink: #1d1d1f;
+    --muted: #8a8a8e;
+    --line: #dcdcdc;
+    --surface: #fafafa;
+    --sans: 'Geist', system-ui, sans-serif;
+    --mono: 'Geist Mono', ui-monospace, monospace;
+    --card: rgb(255 255 255 / 0.6);
+    --card-line: rgb(0 0 0 / 0.07);
+    --card-hover: #fff;
+    --chip: #2b2b2e;
+    --ink-2: #3a3a3a;
+    --dock: rgb(255 255 255 / 0.55);
+    --dock-line: rgb(255 255 255 / 0.8);
+    --ring: rgb(255 255 255 / 0.7);
+    --tag: #555;
+    --tag-bg: rgb(255 255 255 / 0.5);
+    --gh-bg: #1d1d1f;
+    --gh-fg: #fff;
+    --lisar: #0b5a5a;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #f2f2f2;
+      --muted: #8a8a8e;
+      --line: #333336;
+      --surface: #222;
+      --card: #222222;
+      --card-line: rgb(255 255 255 / 0.08);
+      --card-hover: #2a2a2a;
+      --chip: #3a3a3c;
+      --ink-2: #c7c7cc;
+      --dock: rgb(255 255 255 / 0.06);
+      --dock-line: rgb(255 255 255 / 0.1);
+      --ring: rgb(255 255 255 / 0.12);
+      --tag: #c7c7cc;
+      --tag-bg: rgb(255 255 255 / 0.04);
+      --gh-bg: #f2f2f2;
+      --gh-fg: #1d1d1f;
+      --lisar: #fff;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { background: #f3eee8; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    color: var(--ink);
+    background:
+      radial-gradient(ellipse 80% 40% at 50% 0%, #fdfdfd 0%, transparent 70%),
+      linear-gradient(180deg, #f1f1f1 0%, #ececec 55%, #f3eee8 100%);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  @media (prefers-color-scheme: dark) {
+    html, body { background: #191919; }
+  }
+</style>
+
+<style>
+  main { padding: 0 16px; }
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 48px;
+  }
+  .avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 0 4px var(--ring), 0 6px 20px rgb(0 0 0 / 0.08);
+  }
+  .name { margin: 14px 0 0; font-size: 14px; }
+  h1 {
+    margin: 28px 0 0;
+    font-weight: 300;
+    font-size: clamp(30px, 6vw, 46px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+  .nw { white-space: nowrap; }
+  .glyph { display: inline-flex; vertical-align: -0.12em; }
+  .glyph :global(svg) { width: 0.85em; height: 0.85em; }
+  .loc { display: inline-flex; align-items: center; gap: 4px; margin: 18px 0 0; font-size: 12px; color: var(--muted); }
+  .dock-wrap { display: flex; justify-content: center; margin: 32px 0 56px; }
+
+  .about { max-width: 440px; margin: 0 auto 120px; font-size: 14px; line-height: 1.6; }
+  .about p { margin: 0 0 18px; }
+  .about a { text-decoration: none; border-bottom: 1px solid #9a9a9a; }
+  .about a:hover { border-color: var(--ink); }
+  .stack { list-style: none; padding: 0; margin: 4px 0 26px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .stack li { font-family: var(--mono); font-size: 11px; padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px; color: var(--tag); background: var(--tag-bg); }
+  .links { display: flex; gap: 16px; font-size: 12px; color: var(--muted); }
+  .about .links a { border: 0; display: inline-flex; align-items: center; gap: 5px; }
+  .about .links a:hover { color: var(--ink); }
+
+  .mobile { display: none; }
+  @media (max-width: 640px) {
+    .desktop { display: none !important; }
+    .mobile { display: block; padding: 32px 0 64px; }
+  }
+
+  footer { text-align: center; padding: 48px 16px 32px; font-size: 11px; color: var(--muted); }
+  .toast {
+    position: fixed; left: 50%; top: 20px; z-index: 10;
+    translate: -50% -12px; opacity: 0; pointer-events: none;
+    padding: 8px 14px; border-radius: 999px;
+    background: var(--ink); color: var(--surface);
+    font-size: 12px; box-shadow: 0 6px 20px rgb(0 0 0 / 0.18);
+    transition: opacity 0.2s, translate 0.2s;
+  }
+  .toast.on { opacity: 1; translate: -50% 0; }
+</style>
