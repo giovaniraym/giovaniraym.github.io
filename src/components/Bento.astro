@@ -7,11 +7,11 @@ import { profile } from '../data/profile';
 import { stack } from '../data/stack';
 
 const socials = [
-  { label: 'GitHub', icon: 'github', href: profile.github, size: 20 },
-  { label: 'LinkedIn', icon: 'linkedin', href: profile.linkedin, size: 20 },
-  { label: 'Email', icon: 'mail', href: `mailto:${profile.email}`, size: 20 },
-  { label: 'uSafety', icon: 'usafety', href: '#usafety', size: 24 },
-  { label: 'Retalio', icon: 'retalio', href: '#retalio', size: 24 },
+  { label: 'GitHub', icon: 'github', href: profile.github, scale: 32 },
+  { label: 'LinkedIn', icon: 'linkedin', href: profile.linkedin, scale: 32 },
+  { label: 'Email', icon: 'mail', href: `mailto:${profile.email}`, scale: 32 },
+  { label: 'uSafety', icon: 'usafety', href: '#usafety', scale: 38 },
+  { label: 'Retalio', icon: 'retalio', href: '#retalio', scale: 38 },
 ];
 
 const works = [
@@ -62,8 +62,8 @@ const tools = pile.map((p) => ({ ...p, tech: stack.find((t) => t.name === p.name
 
   <div class="socials">
     {socials.map((s) => (
-      <a class="card social" href={s.href} aria-label={s.label} target={s.href.startsWith('http') ? '_blank' : undefined} rel="noopener" data-copy={s.href.startsWith('mailto:') ? profile.email : undefined}>
-        <Icon name={s.icon} size={s.size} />
+      <a class="card social" style={`--icon:${s.scale}%`} href={s.href} aria-label={s.label} target={s.href.startsWith('http') ? '_blank' : undefined} rel="noopener" data-copy={s.href.startsWith('mailto:') ? profile.email : undefined}>
+        <Icon name={s.icon} size={20} />
       </a>
     ))}
   </div>
@@ -111,83 +111,88 @@ const tools = pile.map((p) => ({ ...p, tech: stack.find((t) => t.name === p.name
 
 <style>
   .bento {
+    --u: calc(100cqi / 343);
+    container-type: inline-size;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    gap: 8px;
+    gap: clamp(8px, calc(8 * var(--u)), 12px);
     width: 100%;
-    max-width: 440px;
+    max-width: 620px;
     margin: 0 auto;
   }
   .card {
     position: relative;
     background: var(--card);
     border: 1px solid var(--card-line);
-    border-radius: 14px;
+    border-radius: clamp(14px, calc(14 * var(--u)), 22px);
     box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
     color: var(--ink);
     text-decoration: none;
     overflow: hidden;
   }
-  .label { font-size: 12px; color: var(--muted); }
+  .label { font-size: clamp(12px, calc(12 * var(--u)), 15px); color: var(--muted); }
 
-  .hero { grid-column: span 7; padding: 18px 16px; display: flex; flex-direction: column; justify-content: center; }
-  .hero h1 { margin: 0; font-weight: 400; font-size: 23px; letter-spacing: -0.02em; }
-  .hero p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+  .hero { grid-column: span 7; padding: calc(18 * var(--u)) calc(16 * var(--u)); display: flex; flex-direction: column; justify-content: center; }
+  .hero h1 { margin: 0; font-weight: 400; font-size: clamp(23px, calc(23 * var(--u)), 34px); letter-spacing: -0.02em; }
+  .hero p { margin: 4px 0 0; font-size: clamp(13px, calc(13 * var(--u)), 17px); color: var(--muted); }
   .avatar { grid-column: span 3; display: grid; place-items: center; aspect-ratio: 1; }
   .avatar img { width: 72%; height: auto; aspect-ratio: 1; border-radius: 50%; object-fit: cover; }
 
-  .socials { grid-column: span 10; display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .socials { grid-column: span 10; display: grid; grid-template-columns: repeat(5, 1fr); gap: inherit; }
   .social { aspect-ratio: 1; display: grid; place-items: center; color: #6e6e73; transition: color .2s, background .2s; }
+  .social :global(svg) { width: var(--icon); height: auto; }
   .social:active, .social:hover { color: var(--ink); background: var(--card-hover); }
 
-  .works, .skills { grid-column: span 5; height: 170px; padding: 14px; }
+  .works, .skills { grid-column: span 5; min-height: calc(170 * var(--u)); padding: calc(14 * var(--u)); }
   .arrow {
-    position: absolute; top: 10px; right: 10px;
-    width: 24px; height: 24px; border-radius: 50%;
-    border: 1px solid var(--line); display: grid; place-items: center; font-size: 12px; color: var(--muted);
+    position: absolute; top: calc(10 * var(--u)); right: calc(10 * var(--u));
+    width: calc(24 * var(--u)); height: calc(24 * var(--u)); border-radius: 50%;
+    border: 1px solid var(--line); display: grid; place-items: center; font-size: calc(12 * var(--u)); color: var(--muted);
   }
-  .stack-cards { position: absolute; inset: 40px 0 0 0; }
+  .stack-cards { position: absolute; inset: calc(40 * var(--u)) 0 0 0; }
   .mini {
     position: absolute;
-    width: 78px; padding: 7px;
-    background: #fff; border-radius: 7px;
+    width: calc(78 * var(--u)); padding: calc(7 * var(--u));
+    background: #fff; border-radius: calc(7 * var(--u));
     box-shadow: 0 4px 12px rgb(0 0 0 / 0.12);
-    display: flex; flex-direction: column; gap: 3px;
-    font-size: 9px; line-height: 1.2;
+    display: flex; flex-direction: column; gap: calc(3 * var(--u));
+    font-size: calc(9 * var(--u)); line-height: 1.2;
   }
   .mini b { font-weight: 500; color: #1d1d1f; }
-  .mini small { color: var(--muted); font-size: 8px; }
-  .mini-logo { width: 16px; height: 16px; border-radius: 4px; overflow: hidden; }
-  .bar { height: 3px; border-radius: 2px; margin-top: 2px; width: 80%; }
+  .mini small { color: var(--muted); font-size: calc(8 * var(--u)); }
+  .mini-logo { width: calc(16 * var(--u)); height: calc(16 * var(--u)); border-radius: calc(4 * var(--u)); overflow: hidden; }
+  .mini-logo :global(svg), .mini-logo :global(img) { display: block; width: 100%; height: 100%; }
+  .bar { height: calc(3 * var(--u)); border-radius: 2px; margin-top: calc(2 * var(--u)); width: 80%; }
   .bar.short { width: 50%; background: #e5e5e5; }
-  .m0 { left: 6%; top: 32px; rotate: -8deg; }
-  .m1 { left: 32%; top: 6px; rotate: 3deg; z-index: 2; }
-  .m2 { left: 58%; top: 34px; rotate: 9deg; }
+  .m0 { left: 6%; top: calc(32 * var(--u)); rotate: -8deg; }
+  .m1 { left: 32%; top: calc(6 * var(--u)); rotate: 3deg; z-index: 2; }
+  .m2 { left: 58%; top: calc(34 * var(--u)); rotate: 9deg; }
 
-  .pile { position: absolute; inset: 38px 10px 10px 10px; }
+  .pile { position: absolute; inset: calc(38 * var(--u)) calc(10 * var(--u)) calc(10 * var(--u)) calc(10 * var(--u)); }
   .chip {
     position: absolute;
-    padding: 4px 9px; border-radius: 999px;
+    padding: 0.4em 0.9em; border-radius: 999px;
     background: var(--chip); color: #f2f2f2;
-    font-size: 10px; white-space: nowrap;
+    font-size: calc(10 * var(--u)); white-space: nowrap;
     transform-origin: left center;
   }
 
-  .tools { grid-column: span 4; height: 160px; padding: 14px; }
+  .tools { grid-column: span 4; min-height: calc(160 * var(--u)); padding: calc(14 * var(--u)); }
   .tool {
     position: absolute;
-    width: 36px; height: 36px; border-radius: 9px;
+    width: calc(36 * var(--u)); height: calc(36 * var(--u)); border-radius: calc(9 * var(--u));
     display: grid; place-items: center;
     background: var(--chip); color: #fff;
     box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.06), 0 3px 8px rgb(0 0 0 / 0.18);
   }
-  .collab { grid-column: span 6; height: 160px; padding: 16px; display: flex; flex-direction: column; }
-  .collab h2 { margin: 0; font-weight: 400; font-size: 20px; letter-spacing: -0.01em; }
-  .collab p { margin: 6px 0 0; font-size: 11px; line-height: 1.45; color: var(--muted); }
+  .tool :global(svg) { width: 50%; height: 50%; }
+  .collab { grid-column: span 6; min-height: calc(160 * var(--u)); padding: calc(16 * var(--u)); display: flex; flex-direction: column; }
+  .collab h2 { margin: 0; font-weight: 400; font-size: clamp(20px, calc(20 * var(--u)), 30px); letter-spacing: -0.01em; }
+  .collab p { margin: calc(6 * var(--u)) 0 0; font-size: clamp(11px, calc(11 * var(--u)), 15px); line-height: 1.45; color: var(--muted); }
   .cta {
     margin-top: auto; align-self: flex-start;
-    padding: 7px 12px; border-radius: 999px;
+    padding: 0.65em 1.1em; border-radius: 999px;
     border: 1px solid var(--line); background: var(--card-hover);
-    font-size: 11px; color: var(--ink); text-decoration: none;
+    font-size: clamp(11px, calc(11 * var(--u)), 15px); color: var(--ink); text-decoration: none;
   }
 </style>
