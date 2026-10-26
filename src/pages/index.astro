@@ -98,10 +98,6 @@ const ogImage = new URL('og.png', pageUrl);
               resolución de conflictos y liderazgo de equipos bajo presión.
             </p>
 
-            <ul class="stack">
-              {stack.map((tech) => <li><TechLogo tech={tech} /> {tech.name}</li>)}
-            </ul>
-
             <p>Conectemos</p>
             <div class="links">
               <a href={profile.github} target="_blank" rel="noopener"><Icon name="github" size={12} /> GitHub</a>
@@ -111,6 +107,13 @@ const ogImage = new URL('og.png', pageUrl);
           </section>
 
           <Experience />
+
+          <section class="stack-section" id="stack">
+            <h2>Stack</h2>
+            <ul class="stack">
+              {stack.map((tech) => <li><TechLogo tech={tech} /> {tech.name}</li>)}
+            </ul>
+          </section>
 
           <footer>© {new Date().getFullYear()} {profile.name}</footer>
         </div>
@@ -249,7 +252,9 @@ const ogImage = new URL('og.png', pageUrl);
   .about p { margin: 0 0 18px; }
   .about a { text-decoration: none; border-bottom: 1px solid #9a9a9a; }
   .about a:hover { border-color: var(--ink); }
-  .stack { list-style: none; padding: 0; margin: 4px 0 26px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .stack-section { max-width: 620px; margin: 24px auto 0; }
+  .stack-section h2 { margin: 0 0 16px; font-weight: 500; font-size: 22px; letter-spacing: -0.02em; }
+  .stack { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
   .stack li { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; padding: 4px 10px 4px 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--tag); background: var(--tag-bg); }
   .links { display: flex; gap: 16px; font-size: 12px; color: var(--muted); }
   .about .links a { border: 0; display: inline-flex; align-items: center; gap: 5px; }
@@ -266,7 +271,7 @@ const ogImage = new URL('og.png', pageUrl);
     main { padding: 0; }
     .split {
       display: grid;
-      grid-template-columns: minmax(0, 42fr) minmax(0, 58fr);
+      grid-template-columns: minmax(0, 46fr) minmax(0, 54fr);
       height: 100vh;
       height: 100dvh;
     }
