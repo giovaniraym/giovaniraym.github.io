@@ -1,0 +1,37 @@
+---
+import type { Tech } from '../data/stack';
+
+type Props = { tech: Tech; size?: number; onDark?: boolean };
+const { tech, size = 14, onDark = false } = Astro.props;
+
+const uid = Math.random().toString(36).slice(2, 8);
+const body = tech.body.replace(/(id="|url\(#)([\w-]+)/g, `$1$2-${uid}`);
+---
+<svg
+  class:list={['tech', tech.stroke ? 'stroke' : 'fill', { 'on-dark': onDark }]}
+  width={size}
+  height={size}
+  viewBox={tech.viewBox}
+  style={`--c:${tech.color};--cd:${tech.dark ?? tech.color}`}
+  aria-hidden="true"
+  set:html={body}
+/>
+
+<style>
+  .tech { display: block; flex: none; }
+  .fill { fill: var(--c); }
+  .stroke {
+    color: var(--c);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .on-dark.fill { fill: var(--cd); }
+  .on-dark.stroke { color: var(--cd); }
+  @media (prefers-color-scheme: dark) {
+    .fill { fill: var(--cd); }
+    .stroke { color: var(--cd); }
+  }
+</style>

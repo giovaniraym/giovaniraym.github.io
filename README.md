@@ -34,8 +34,9 @@ npm run preview   # sirve el build localmente
 ```
 src/
 ├── assets/          # imágenes optimizadas en el build (foto y logos)
-├── components/      # Bento, Dock, Experience, Icon
+├── components/      # Bento, Dock, Experience, Icon, TechLogo
 ├── data/profile.ts  # datos personales y experiencia
+├── data/stack.ts    # tecnologías y sus logos (SVG)
 └── pages/index.astro
 public/              # favicon, apple-touch-icon e imagen Open Graph
 ```
@@ -45,6 +46,14 @@ El contenido (experiencia, enlaces y datos de contacto) se edita en `src/data/pr
 ## Despliegue
 
 Cada push a `main` construye y publica el sitio con el workflow `.github/workflows/deploy.yml`.
+
+## Créditos de íconos
+
+- [Simple Icons](https://simpleicons.org) (CC0): TypeScript, Node.js, Express, PostgreSQL, Redis, MariaDB, GitHub Actions y Splunk.
+- [Devicon](https://devicon.dev) (MIT): Azure.
+- [Lucide](https://lucide.dev) (ISC): RAG / Embeddings y Active Directory.
+
+Las marcas pertenecen a sus respectivos dueños.
 
 ## Licencia
 
